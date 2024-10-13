@@ -18,9 +18,12 @@ export class ScoreService {
     // Validate configuration
     ScoreConfigSchema.parse(scoreConfig);
 
-    const score = starCount * scoreConfig.starWeight + forkCount * scoreConfig.forkWeight;
+    /**
+     * stars and forks counts create symmetrical scores
+     */
+    const score = (starCount * scoreConfig.starWeight) + (forkCount * scoreConfig.forkWeight);
 
-    const deviationBasedOnRecency = this.getDeviationBasedOnRecency(
+    const deviationBasedOnDaysLastUpdated = this.getDeviationBasedOnDaysLastUpdated(
       lastUpdatedAt,
       scoreConfig.recencyDeviationWeight,
     );
@@ -31,13 +34,18 @@ export class ScoreService {
       scoreConfig.lifespanDeviationWeight,
     );
 
-    return score / (deviationBasedOnRecency * deviationBasedOnLifespan);
+    /**
+     * Last updated and lifespan of a GitHub repository should be inversely proportional
+     * - repository which is updated today should be more popular than which one is updated yesterday
+     * - repository which collects 5 stars within 5 days should be more popular which collects 5 stars within 30 days
+     */
+    return score / (deviationBasedOnDaysLastUpdated * deviationBasedOnLifespan);
   }
 
-  getDeviationBasedOnRecency(lastUpdatedAt: Date, lifespanDeviationWeight: number) {
-    const daysBetweenCreatedAndLastUpdated = getDaysDiff(lastUpdatedAt, new Date());
+  getDeviationBasedOnDaysLastUpdated(lastUpdatedAt: Date, lifespanDeviationWeight: number) {
+    const daysAgoLastUpdated = getDaysDiff(lastUpdatedAt, new Date());
 
-    return this.calculateDeviation(lifespanDeviationWeight, daysBetweenCreatedAndLastUpdated);
+    return this.calculateDeviation(lifespanDeviationWeight, daysAgoLastUpdated);
   }
 
   getDeviationForLifespan(createdAt: Date, lastUpdatedAt: Date, lifespanDeviationWeight: number) {
