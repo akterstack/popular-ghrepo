@@ -21,7 +21,7 @@ export class ScoreService {
     /**
      * stars and forks counts create symmetrical scores
      */
-    const score = (starCount * scoreConfig.starWeight) + (forkCount * scoreConfig.forkWeight);
+    const score = starCount * scoreConfig.starWeight + forkCount * scoreConfig.forkWeight;
 
     const deviationBasedOnDaysLastUpdated = this.getDeviationBasedOnDaysLastUpdated(
       lastUpdatedAt,

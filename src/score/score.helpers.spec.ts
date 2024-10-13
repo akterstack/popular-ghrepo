@@ -7,9 +7,13 @@ describe('ScoreHelpers', () => {
     });
 
     it('should respect rounding time [Math.round()]', () => {
-      expect(getDaysDiff(new Date('2024-10-10T12:00:00'), new Date('2024-10-10T23:59:59'))).toEqual(0);
+      expect(getDaysDiff(new Date('2024-10-10T12:00:00'), new Date('2024-10-10T23:59:59'))).toEqual(
+        0,
+      );
 
-      expect(getDaysDiff(new Date('2024-10-10T01:00:00'), new Date('2024-10-10T23:59:59'))).toEqual(1);
+      expect(getDaysDiff(new Date('2024-10-10T01:00:00'), new Date('2024-10-10T23:59:59'))).toEqual(
+        1,
+      );
     });
 
     it('should throw error if "from" date is greater than "to" date', () => {
