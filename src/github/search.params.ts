@@ -1,10 +1,19 @@
-import { z } from 'nestjs-zod/z';
-import { createZodDto } from 'nestjs-zod';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export const SearchParamsSchema = z.object({
-  query: z.string().optional(),
-  created: z.dateString().format('date').optional(),
-  language: z.string().optional(),
-});
+export class SearchParams {
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  query?: string;
 
-export class SearchParams extends createZodDto(SearchParamsSchema) {}
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  language?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional({ description: 'Please use date as string.' })
+  created?: string;
+}

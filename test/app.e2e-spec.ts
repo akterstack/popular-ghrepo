@@ -47,7 +47,7 @@ describe('App', () => {
 
   it('/GET repositories', () => {
     return request(app.getHttpServer())
-      .get('/v1/repositories')
+      .get('/v1/repositories?language=typescript')
       .expect(200)
       .expect([JSON.stringify(repoScoreData)]);
   });

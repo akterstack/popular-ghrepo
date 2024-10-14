@@ -40,19 +40,31 @@ describe('AppController', () => {
 
     jest.spyOn(appService, 'getRepositoriesWithPopularityScore').mockResolvedValue([repoScoreData]);
 
-    const resp = await appController.getRepositoryWithPopularityScore({});
+    const resp = await appController.getRepositoryWithPopularityScore({ language: 'typescript' });
 
     expect(resp).toEqual([repoScoreData]);
   });
 
-  it('should return result', async () => {
+  it('should return error: at least one param is required', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(appService, 'getRepositoriesWithPopularityScore').mockRejectedValue(new Error());
+
+    try {
+      await appController.getRepositoryWithPopularityScore({});
+    } catch (error) {
+      expect(error).toBeInstanceOf(HttpException);
+      expect(error.message).toEqual('At least one param is required.');
+    }
+  });
+
+  it('should return error', async () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     jest
       .spyOn(appService, 'getRepositoriesWithPopularityScore')
       .mockRejectedValue(new Error('Test error.'));
 
     try {
-      await appController.getRepositoryWithPopularityScore({});
+      await appController.getRepositoryWithPopularityScore({ language: 'typescript' });
     } catch (error) {
       expect(error).toBeInstanceOf(HttpException);
       expect(error.message).toEqual('Test error.');
