@@ -7,17 +7,23 @@ export class GithubService {
   constructor(private readonly githubClient: GithubClient) {}
 
   async searchRepositories(searchParams: SearchParams) {
+    let response;
+
     try {
       const searchQuery = `q=${this.convertSearchParamsToQueryString(searchParams)}`;
-      console.log('Search query: ' + searchQuery);
-      const response = await this.githubClient.searchRepositories(searchQuery);
-      const jsonData = await response.json();
 
-      return jsonData.items;
+      response = await this.githubClient.searchRepositories(searchQuery);
     } catch (error) {
       console.error(error);
-      throw error;
+      throw new Error('Unexpected error while calling GitHub API.');
     }
+
+    const jsonData = await response.json();
+    if (!response.ok) {
+      console.error(`Error while calling Github endpoint: ${response.url}. \nResponse:`, jsonData);
+      throw new Error(`GithubError: ${jsonData.message}`);
+    }
+    return jsonData.items;
   }
 
   convertSearchParamsToQueryString(searchParams: SearchParams) {

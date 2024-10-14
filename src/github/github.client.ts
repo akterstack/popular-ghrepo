@@ -5,14 +5,12 @@ import { ConfigService } from '@nestjs/config';
 export class GithubClient {
   private readonly baseUrl: string;
 
-  constructor(private configService: ConfigService) {
+  constructor(configService: ConfigService) {
     this.baseUrl = configService.get<string>('GITHUB_API_BASE_URL');
   }
 
   searchRepositories(queryString: string) {
     const searchUrl = `${this.baseUrl}/search/repositories?${queryString}`;
-
-    console.log(`Search url: ${searchUrl}`);
 
     return fetch(searchUrl);
   }
