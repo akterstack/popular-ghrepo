@@ -7,7 +7,7 @@ export class GithubService {
   constructor(private readonly githubClient: GithubClient) {}
 
   async searchRepositories(searchParams: SearchParams) {
-    let response;
+    let response: Response;
 
     try {
       const searchQuery = `q=${this.convertSearchParamsToQueryString(searchParams)}`;

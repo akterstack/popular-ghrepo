@@ -16,7 +16,7 @@ export class AppService {
     // rawRepository contains raw response from GitHub API
     const rawRepositories = await this.githubService.searchRepositories(searchParams);
 
-    return rawRepositories.map(this.calcScoreAndBuildRepositoryData);
+    return rawRepositories.map(this.calcScoreAndBuildRepositoryData.bind(this));
   }
 
   private calcScoreAndBuildRepositoryData(rawRepository: Record<string, unknown>) {
