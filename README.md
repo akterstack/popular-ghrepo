@@ -1,6 +1,7 @@
 # Popular Github Repo
 
 ## How to run
+
 ```shell
 npm install
 
@@ -15,4 +16,12 @@ npm build && npm start
 ```
 
 ## Test endpoint
-Browse http://localhost:3000/api to test api through OpenAPI/Swagger UI
+
+1. Browse http://localhost:3000/api to test api through OpenAPI/Swagger UI or
+2. Direct API access http://localhost:3000/v1/repositories?language=typescript&created=2024-03-01
+
+## Improvements
+
+1. Implement authentication and authorization
+2. Improve test coverage
+3. 

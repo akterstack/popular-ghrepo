@@ -1,5 +1,8 @@
 import { Exclude, Expose } from 'class-transformer';
 
+/**
+ * DTO class to map GitHub API response
+ */
 export class GithubRepositoryData {
   @Exclude()
   readonly rawData: Record<string, unknown>;
