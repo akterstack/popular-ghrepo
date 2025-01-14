@@ -16,4 +16,7 @@ export class SearchParams {
   @IsOptional()
   @ApiPropertyOptional({ description: 'Please use date as string.' })
   created?: string;
+
+  @IsString()
+  source?: string;
 }

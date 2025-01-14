@@ -14,7 +14,11 @@ export class AppService {
 
   async getRepositoriesWithPopularityScore(searchParams: SearchParams) {
     // rawRepositories contains raw response from GitHub API
-    const rawRepositories = await this.githubService.searchRepositories(searchParams);
+
+
+    let service = searchParams.source === 'github' ? githubService : gitlabService;
+
+    const [githubResult, gitlabResult] = Promise.all([service.searchRepositories(searchParams), service.searchRepositories(searchParams)]);
 
     return rawRepositories.map(this.calcScoreAndBuildRepositoryData.bind(this));
   }

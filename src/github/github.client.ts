@@ -3,10 +3,10 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class GithubClient {
-  private readonly baseUrl: string;
+  protected readonly baseUrl: string;
 
-  constructor(configService: ConfigService) {
-    this.baseUrl = configService.get<string>('GITHUB_API_BASE_URL');
+  constructor(configService: ConfigService, baseUrlProp: string) {
+    this.baseUrl = configService.get<string>(baseUrlProp);
   }
 
   searchRepositories(queryString: string) {

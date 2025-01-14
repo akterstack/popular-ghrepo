@@ -20,8 +20,8 @@ export class GithubService {
 
     const jsonData = await response.json();
     if (!response.ok) {
-      console.error(`Error while calling Github endpoint: ${response.url}. \nResponse:`, jsonData);
-      throw new Error(`GithubError: ${jsonData.message}`);
+      console.error(`Error while calling repository endpoint: ${response.url}. \nResponse:`, jsonData);
+      throw new Error(`Error: ${jsonData.message}`);
     }
     return jsonData.items;
   }

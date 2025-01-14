@@ -21,9 +21,9 @@ export class AppController {
     if (Object.keys(searchParams).length === 0) {
       throw new HttpException('At least one param is required.', HttpStatus.BAD_REQUEST);
     }
-
     try {
-      return await this.appService.getRepositoriesWithPopularityScore(searchParams);
+      const commonRes = await this.appService.getRepositoriesWithPopularityScore(searchParams);
+      return new Result(commonRes);
     } catch (error) {
       console.error(error);
       // TODO: send proper status for validation error
